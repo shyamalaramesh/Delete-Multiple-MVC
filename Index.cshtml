@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MVCDemo6.Models.Employee>
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            $("#checkAll").click(function () {
+                $("input[name='employeeIdsToDelete']").prop("checked", this.checked);
+
+                $("input[name='employeeIdsToDelete']").click(function () {
+                    if ($("input[name='employeeIdsToDelete']").length === $("input[name='employeeIdsToDelete']:checked").length) {
+                        $("#checkAll").prop("checked",true);
+                    }
+                    else {
+                        $("#checkAll").prop("checked",false);
+                    }
+                });
+
+            });
+            $("#btnSubmit").click(function () {
+                var count = $("input[name='employeeIdsToDelete']:checked").length;
+                if (count === 0) {
+                    alert("No rows selected to delete");
+                    return false;
+                    
+                }
+                else {
+                    return confirm(count + " row(s) will be deleted");
+                   
+                }
+            });
+        });    
+    </script> 
+</head>
+<body>
+    <div style="font-family:Arial">
+        <h2>Employee List</h2>
+
+        @using (Html.BeginForm("Delete", "Home", FormMethod.Post))
+        {
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="checkAll"/>
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Gender
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.EditorForModel()
+                </tbody>
+            </table>
+            <input id="btnSubmit" type="submit" value="Delete selected employees" />
+        }
+    </div>
+</body>
